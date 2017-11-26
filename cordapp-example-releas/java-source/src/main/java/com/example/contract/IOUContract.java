@@ -42,13 +42,13 @@ public class IOUContract implements Contract {
                     tx.getOutputs().size() == 1);
             final IOUState out = tx.outputsOfType(IOUState.class).get(0);
             require.using("The lender and the borrower cannot be the same entity.",
-                    out.getLender() != out.getBorrower());
+                    out.getOrg() != out.getCustomer());
             require.using("All of the participants must be signers.",
                     command.getSigners().containsAll(out.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList())));
 
             // IOU-specific constraints.
-            require.using("The IOU's value must be non-negative.",
-                    out.getValue() > 0);
+//            require.using("The IOU's value must be non-negative.",
+//                    Integer.parseInt(out.getDOB()) > 0);
 
             return null;
         });

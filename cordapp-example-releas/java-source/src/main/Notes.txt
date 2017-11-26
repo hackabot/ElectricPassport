@@ -1,0 +1,25 @@
+- At this stage, we do not require the borrower to approve and sign IOU issuance transactions. We will be able to impose this requirement when we look at contracts in the next tutorial.
+- ServiceHub.networkMapCache provides information about the other nodes on the network and the services that they offer.
+-An Action command listing the IOU’s lender as a signer
+-we list the lender as the only public key
+- ServiceHub.toSignedTransaction, which returns a SignedTransaction
+- FinalityFlow completely automates the process of:
+
+    Notarising the transaction if required (i.e. if the transaction contains inputs and/or a time-window)
+    Recording it in our vault
+    Sending it to the other participants (i.e. the lender) for them to record as well
+
+
+= for now we will only add the requirement of the org (bank)'s signature on the KYC State
+= will have to get the notary thing cleared.
+= The flow structure remains the same
+
+= add the kotlin sources again and see if that works
+
+
+List of API :
+
+http://localhost:10007/api/example/ious
+http://localhost:10007/api/example/peers
+http://localhost:10007/api/example/me
+http://localhost:10007/web/example/

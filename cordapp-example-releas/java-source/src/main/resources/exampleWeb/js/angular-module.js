@@ -73,7 +73,7 @@ app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstanc
 
             $uibModalInstance.close();
 
-            const createIOUEndpoint = `${apiBaseURL}create-iou?partyName=${modalInstance.form.counterparty}&iouValue=${modalInstance.form.value}`;
+            const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}`;
 
             // Create PO and handle success / fail responses.
             $http.put(createIOUEndpoint).then(
@@ -105,7 +105,7 @@ app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstanc
 
     // Validate the IOU.
     function invalidFormInput() {
-        return isNaN(modalInstance.form.value) || (modalInstance.form.counterparty === undefined);
+        return (modalInstance.form.customer === undefined);
     }
 });
 
