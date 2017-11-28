@@ -45,15 +45,26 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
     <form>
         <div class="modal-body">
             <div class="form-group">
-                <label for="counterparty" class="control-label">Counter-party:</label>
-                <select ng-model="modalInstance.form.counterparty" class="form-control" id="counterparty"
+                <label for="customer" class="control-label">Customer:</label>
+                <select ng-model="modalInstance.form.customer" class="form-control" id="customer"
                         ng-options="peer as peer for peer in modalInstance.peers">
                 </select>
             </div>
+
             <div class="form-group">
-                <label for="value" class="control-label">Value (Int):</label>
-                <input type="text" ng-model="modalInstance.form.value" class="form-control" id="value">
+                <label for="first_name" class="control-label">First Name:</label>
+                <input type="text" ng-model="modalInstance.form.first_name" class="form-control" id="first_name">
             </div>
+            <div class="form-group">
+                <label for="last_name" class="control-label">Last Name:</label>
+                <input type="text" ng-model="modalInstance.form.last_name" class="form-control" id="last_name">
+            </div>
+            <div class="form-group">
+                <label for="dob" class="control-label">DOB:</label>
+                <input type="text" ng-model="modalInstance.form.dob" class="form-control" id="dob">
+            </div>
+
+
             <div ng-show="modalInstance.formError" class="form-group">
                 <div class="alert alert-danger" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
@@ -91,9 +102,11 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
         <div ng-repeat="iou in demoApp.ious" class="panel panel-default">
             <div class="panel-body">
                 <ul>
-                    <li>Lender: {{iou.lender}}</li>
-                    <li>Borrower: {{iou.borrower}}</li>
-                    <li>Value: {{iou.value}}</li>
+                    <li>First Name: {{iou.firstName}}</li>
+                    <li>Last Name: {{iou.lastName}}</li>
+                    <li>DOB: {{iou.dob}}</li>
+                    <li>Customer: {{iou.customer}}</li>
+
                 </ul>
             </div>
         </div>

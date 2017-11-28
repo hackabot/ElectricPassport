@@ -90,24 +90,37 @@ public class ExampleApi {
      *
      * The flow is invoked asynchronously. It returns a future when the flow's call() method returns.
      */
+
+    /* ElectricPassport
+        Changing the Query params to accomodate our needs
+
+     */
+
     @PUT
     @Path("create-iou")
-    public Response createIOU(@QueryParam("iouValue") int iouValue, @QueryParam("partyName") CordaX500Name partyName) throws InterruptedException, ExecutionException {
-        if (iouValue <= 0) {
-            return Response.status(BAD_REQUEST).entity("Query parameter 'iouValue' must be non-negative.\n").build();
-        }
-        if (partyName == null) {
+    public Response createIOU(
+
+            @QueryParam("fisrt_name") String firstName,
+            @QueryParam("last_name") String lastName,
+            @QueryParam("dob") String dob,
+            @QueryParam("customer") CordaX500Name customer)
+            throws InterruptedException, ExecutionException {
+
+//        if (iouValue <= 0) {
+//            return Response.status(BAD_REQUEST).entity("Query parameter 'iouValue' must be non-negative.\n").build();
+//        }
+        if (customer == null) {
             return Response.status(BAD_REQUEST).entity("Query parameter 'partyName' missing or has wrong format.\n").build();
         }
 
-        final Party otherParty = rpcOps.wellKnownPartyFromX500Name(partyName);
+        final Party otherParty = rpcOps.wellKnownPartyFromX500Name(customer);
         if (otherParty == null) {
-            return Response.status(BAD_REQUEST).entity("Party named " + partyName + "cannot be found.\n").build();
+            return Response.status(BAD_REQUEST).entity("Party named " + customer + "cannot be found.\n").build();
         }
 
         try {
             FlowProgressHandle<SignedTransaction> flowHandle = rpcOps
-                    .startTrackedFlowDynamic(ExampleFlow.Initiator.class, iouValue, otherParty);
+                    .startTrackedFlowDynamic(ExampleFlow.Initiator.class, firstName, lastName, dob, otherParty);
             flowHandle.getProgress().subscribe(evt -> System.out.printf(">> %s\n", evt));
 
             // The line below blocks and waits for the flow to return.

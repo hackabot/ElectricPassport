@@ -35,9 +35,22 @@ public class ExampleFlow {
     @InitiatingFlow
     @StartableByRPC
     public static class Initiator extends FlowLogic<SignedTransaction> {
-        
-        private final int iouValue;
-        private final Party otherParty;
+
+//        private final int iouValue;
+//        private final Party otherParty;
+
+        private final String DOB;
+        private final String FirstName;
+        private final String LastName;
+
+        private final Party Customer;
+
+        public Initiator( String firstName, String lastName, String DOB, Party customer) {
+            this.DOB = DOB;
+            FirstName = firstName;
+            LastName = lastName;
+            Customer = customer;
+        }
 
         private final Step GENERATING_TRANSACTION = new Step("Generating transaction based on new IOU.");
         private final Step VERIFYING_TRANSACTION = new Step("Verifying contract constraints.");
@@ -63,11 +76,11 @@ public class ExampleFlow {
                 GATHERING_SIGS,
                 FINALISING_TRANSACTION
         );
-
-        public Initiator(int iouValue, Party otherParty) {
-            this.iouValue = iouValue;
-            this.otherParty = otherParty;
-        }
+//
+//        public Initiator(int iouValue, Party otherParty) {
+//            this.iouValue = iouValue;
+//            this.otherParty = otherParty;
+//        }
 
         @Override
         public ProgressTracker getProgressTracker() {
@@ -86,7 +99,7 @@ public class ExampleFlow {
             // Stage 1.
             progressTracker.setCurrentStep(GENERATING_TRANSACTION);
             // Generate an unsigned transaction.
-            IOUState iouState = new IOUState(iouValue, getServiceHub().getMyInfo().getLegalIdentities().get(0), otherParty);
+            IOUState iouState = new IOUState(FirstName, LastName, DOB, getServiceHub().getMyInfo().getLegalIdentities().get(0), Customer);
             final Command<IOUContract.Commands.Create> txCommand = new Command<>(new IOUContract.Commands.Create(),
                     iouState.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList()));
             final TransactionBuilder txBuilder = new TransactionBuilder(notary).withItems(new StateAndContract(iouState, IOU_CONTRACT_ID), txCommand);
@@ -102,7 +115,7 @@ public class ExampleFlow {
             final SignedTransaction partSignedTx = getServiceHub().signInitialTransaction(txBuilder);
 
 
-            FlowSession otherPartySession = initiateFlow(otherParty);
+            FlowSession otherPartySession = initiateFlow(Customer);
 
             // Stage 4.
             progressTracker.setCurrentStep(GATHERING_SIGS);
@@ -140,7 +153,7 @@ public class ExampleFlow {
                         ContractState output = stx.getTx().getOutputs().get(0).getData();
                         require.using("This must be an IOU transaction.", output instanceof IOUState);
                         IOUState iou = (IOUState) output;
-                        require.using("I won't accept IOUs with a value over 100.", iou.getValue() <= 100);
+                       // require.using("I won't accept IOUs with a value over 100.", Integer.parseInt(iou.getDOB()) <= 100);
                         return null;
                     });
                 }

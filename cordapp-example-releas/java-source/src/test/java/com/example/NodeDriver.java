@@ -39,10 +39,10 @@ public class NodeDriver {
 
                     try {
                         NodeHandle nodeA = dsl.startNode(new NodeParameters()
-                                .setProvidedName(new CordaX500Name("PartyA", "London", "GB"))
+                                .setProvidedName(new CordaX500Name("HSBC", "London", "GB"))
                                 .setRpcUsers(ImmutableList.of(user))).get();
                         NodeHandle nodeB = dsl.startNode(new NodeParameters()
-                                .setProvidedName(new CordaX500Name("PartyB", "New York", "US"))
+                                .setProvidedName(new CordaX500Name("Gatsby", "Pune", "IN"))
                                 .setRpcUsers(ImmutableList.of(user))).get();
 //                        NodeHandle nodeC = dsl.startNode(new NodeParameters()
 //                                .setProvidedName(new CordaX500Name("PartyC", "Paris", "FR"))
