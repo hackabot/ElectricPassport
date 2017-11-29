@@ -3,6 +3,7 @@ package com.example.api;
 
 
 import com.example.flow.ExampleFlow;
+import com.example.flow.VerifyPrevFlow;
 import com.example.state.IOUState;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -12,6 +13,7 @@ import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.messaging.FlowProgressHandle;
 import net.corda.core.node.NodeInfo;
+import net.corda.core.node.ServiceHub;
 import net.corda.core.transactions.SignedTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +130,62 @@ public class ExampleApi {
                     .get();
 
             final String msg = String.format("Transaction id %s committed to ledger.\n", result.getId());
+            return Response.status(CREATED).entity(msg).build();
+
+        } catch (Throwable ex) {
+            final String msg = ex.getMessage();
+            logger.error(ex.getMessage(), ex);
+            return Response.status(BAD_REQUEST).entity(msg).build();
+        }
+    }
+
+    @GET
+    @Path("verifyPrevious")
+    public Response verifyPrevious(
+
+//            @QueryParam("fisrt_name") String firstName,
+//            @QueryParam("last_name") String lastName,
+//            @QueryParam("dob") String dob,
+            @QueryParam("customer") CordaX500Name customer)
+            throws InterruptedException, ExecutionException {
+
+//        if (iouValue <= 0) {
+//            return Response.status(BAD_REQUEST).entity("Query parameter 'iouValue' must be non-negative.\n").build();
+//        }
+        if (customer == null) {
+            return Response.status(BAD_REQUEST).entity("Query parameter 'partyName' missing or has wrong format.\n").build();
+        }
+
+        final Party otherParty = rpcOps.wellKnownPartyFromX500Name(customer);
+        if (otherParty == null) {
+            return Response.status(BAD_REQUEST).entity("Party named " + customer + "cannot be found.\n").build();
+        }
+
+        try {
+            FlowProgressHandle<List<StateAndRef<IOUState>>> flowHandle = rpcOps
+                    .startTrackedFlowDynamic(VerifyPrevFlow.PrevStateFlow.class);//, otherParty);
+            flowHandle.getProgress().subscribe(evt -> System.out.printf(">> %s\n", evt));
+
+//            rpcOps.startFlowDynamic()
+
+            // The line below blocks and waits for the flow to return.
+            final StateAndRef<IOUState> result = flowHandle.getReturnValue().get().get(0);
+
+
+
+//                    .getReturnValue()
+//                    .get();
+//
+//            result.getInputs().get(0);
+//
+//
+//            final  result = flowHandle
+//                    .getReturnValue()
+//                    .get();
+
+
+
+            final String msg = String.format("Transaction verified.\n", result.getState().getData().toString());
             return Response.status(CREATED).entity(msg).build();
 
         } catch (Throwable ex) {
