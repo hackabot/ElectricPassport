@@ -1,118 +1,182 @@
-<!--
---------
-WARNING:
---------
-
-THIS CODE IS ONLY MADE AVAILABLE FOR DEMONSTRATION PURPOSES AND IS NOT SECURE! DO NOT USE IN PRODUCTION!
-
-FOR SECURITY REASONS, USING A JAVASCRIPT WEB APP HOSTED VIA THE CORDA NODE IS NOT THE RECOMMENDED WAY TO INTERFACE
-WITH CORDA NODES! HOWEVER, FOR THIS PRE-ALPHA RELEASE IT'S A USEFUL WAY TO EXPERIMENT WITH THE PLATFORM AS IT ALLOWS
-YOU TO QUICKLY BUILD A UI FOR DEMONSTRATION PURPOSES.
-
-GOING FORWARD WE RECOMMEND IMPLEMENTING A STANDALONE WEB SERVER THAT AUTHORISES VIA THE NODE'S RPC INTERFACE. IN THE
-COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
--->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Example CorDapp</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.1/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
-    <script src="js/angular-module.js"></script>
+    <title>Welcome to CORDA Application</title>
+
+    <meta charset="utf-8">
+    <style media="screen" type="text/css">
+body {
+	margin: 0;
+	color: black;
+	background-image: url("new.jpg");
+	background-brightness: 80%;
+	background-opacity: 0.8;
+	background-color: #cccccc;
+	background-position: 30% 20%;
+	background-size: cover;
+	background-repeat: no-repeat;
+	font: 600 16px/18px 'Open Sans', sans-serif;
+}
+Q {
+	border: 4px solid blue;
+}
+J {
+	color: white;
+}
+C {
+	color: green;
+}
+fblue {
+	color: #87CEFA;
+}
+.myButton {
+	background-color: #44c767;
+	-moz-border-radius: 28px;
+	-webkit-border-radius: 28px;
+	border-radius: 28px;
+	border: 1px solid #18ab29;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 17px;
+	padding: 16px 31px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #2f6627;
+}
+.myButton:hover {
+	background-color: #5cbf2a;
+}
+.myButton:active {
+	position: relative;
+	top: 0;
+}
+#images {
+	padding: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	text-align: center;
+	overflow: auto;
+}
+#images img {
+	height: 250px;
+	width: 250px;
+	vertical-align: middle;
+}
+#login {
+	margin-top: 2%;
+	overflow: auto;
+}
+ul#navigation {
+	height: 40px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: 18px;
+	font-family: 'Cham-WebFont', Arial, sans-serif;
+	position: fixed;
+	bottom: 5;
+	width: 100%;
+}
+ul#navigation li {
+	display: inline;
+	margin-right: .75em;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul#navigation li.last {
+	margin-right: 0;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #87CEFA;
+}
+li a{
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+}
+li a:hover {
+    background-color: blue;
+}
+</style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript">
+	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+</script>
+    <!--webfonts-->
+    <link
+            href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700'
+            rel='stylesheet' type='text/css'>
+    <!--//webfonts-->
 </head>
-<body ng-app="demoAppModule" ng-controller="DemoAppController as demoApp">
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
+<body>
+
+<!-----start-main---->
+<br> <br>
+
+<J>
+    <h1 style="text-align: center;">KYC using CORDA Application</h1>
+</J>
+
+<br><br>
+
+<!-- 	<ul id="navigation">
+                <li class="x"><a title="home" href="index.html">Home</a></li>
+                <li class="x"><a title="architecture" href="arch.pdf">Architecture</a></li>
+                <li class="x"><a title="ppt"
+                    href=" ">Concept</a></li>
+                <li class="x"><a title="references" href="ref.html">References</a></li>
+                <li class="x"><a title="about us" href="about.html">About
+                        us</a></li>
+            </ul> -->
+
+<br>
+
+
+
+<div class="main">
+    <div class="login-form">
+        <br> <br>
+        <div class="head"></div>
+        <div id="images">
+            <a href="https://www.corda.net/what-is-corda/" />
+            <img src="corda.jpeg" onmouseover="this.src='r3.png'" onmouseout="this.src='corda.jpeg'" hspace="30" />
+            <a href="https://kyc-chain.com/" />
+            <img src="kyc.png" onmouseover="this.src='chain.png'" onmouseout="this.src='kyc.png'" hspace="30" />
+
+
         </div>
-        <button ng-click="demoApp.openModal()" type="button" class="btn btn-primary navbar-btn">Create IOU</button>
+        <div id="login">
+            <br> <br> <br> <br>
+            <center><form action="firstPage.html" method="post">
+                <a href="firstPage.html" class="myButton">Click Here to LOGIN</a></form></center>
+        </div>
+
+        <br>
+        <br>
+        <br>
+        <br>
+
+
+        </center>
+
     </div>
-</nav>
-<script type="text/ng-template" id="demoAppModal.html">
-    <div class="modal-header">
-        <h4 class="modal-title">Add new IOU</h4>
-    </div>
-    <form>
-        <div class="modal-body">
-            <div class="form-group">
-                <label for="customer" class="control-label">Customer:</label>
-                <select ng-model="modalInstance.form.customer" class="form-control" id="customer"
-                        ng-options="peer as peer for peer in modalInstance.peers">
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="first_name" class="control-label">First Name:</label>
-                <input type="text" ng-model="modalInstance.form.first_name" class="form-control" id="first_name">
-            </div>
-            <div class="form-group">
-                <label for="last_name" class="control-label">Last Name:</label>
-                <input type="text" ng-model="modalInstance.form.last_name" class="form-control" id="last_name">
-            </div>
-            <div class="form-group">
-                <label for="dob" class="control-label">DOB:</label>
-                <input type="text" ng-model="modalInstance.form.dob" class="form-control" id="dob">
-            </div>
-
-
-            <div ng-show="modalInstance.formError" class="form-group">
-                <div class="alert alert-danger" role="alert">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    <span class="sr-only">Error:</span>
-                    Enter valid IOU parameters
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button ng-click="modalInstance.cancel()" type="button" class="btn btn-default">Close</button>
-            <button ng-click="modalInstance.create()" type="button" class="btn btn-primary">Create IOU</button>
-        </div>
-    </form>
-</script>
-<script type="text/ng-template" id="messageContent.html">
-    <div class="modal-body" id="modal-body">
-        {{ modalInstanceTwo.message }}
-    </div>
-</script>
-
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">There are no recorded IOUs</h3>
-            </div>
-            <div class="panel-body">Use the "Create IOU" button to send an IOU to a peer.</div>
-        </div>
-        <div ng-show="demoApp.ious.length" class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Recorded IOUs:</h3>
-            </div>
-        </div>
-        <div ng-repeat="iou in demoApp.ious" class="panel panel-default">
-            <div class="panel-body">
-                <ul>
-                    <li>First Name: {{iou.firstName}}</li>
-                    <li>Last Name: {{iou.lastName}}</li>
-                    <li>DOB: {{iou.dob}}</li>
-                    <li>Customer: {{iou.customer}}</li>
-
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1"></div>
+    <!--//End-login-form-->
+    <!-----start-copyright---->
+    <div class="copy-right"></div>
+    <!-----//end-copyright---->
 </div>
 
+<!-----//end-main---->
 </body>
 </html>

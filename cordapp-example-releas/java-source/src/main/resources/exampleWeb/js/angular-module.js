@@ -48,6 +48,9 @@ app.controller('DemoAppController', function($http, $location, $uibModal) {
 
         modalInstance.result.then(() => {}, () => {});
     };
+//    demoApp.openModal=()=>{
+//        window.open('Signup.html', '_self');
+//    };
 
     demoApp.getIOUs = () => $http.get(apiBaseURL + "ious")
         .then((response) => demoApp.ious = Object.keys(response.data)
@@ -56,6 +59,11 @@ app.controller('DemoAppController', function($http, $location, $uibModal) {
 
     demoApp.getIOUs();
 });
+
+//    demoApp.myFunc=()=>{
+//        window.open('www.google.com', '_self');
+//    };
+
 
 app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstance, $uibModal, demoApp, apiBaseURL, peers) {
     const modalInstance = this;
@@ -73,7 +81,7 @@ app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstanc
 
             $uibModalInstance.close();
 
-            const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}`;
+            const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}&aadhaar_num=${modalInstance.form.aadhaar_num}&pan_num=${modalInstance.form.pan_num}&phone_num=${modalInstance.form.phone_num}`;
 
             // Create PO and handle success / fail responses.
             $http.put(createIOUEndpoint).then(
