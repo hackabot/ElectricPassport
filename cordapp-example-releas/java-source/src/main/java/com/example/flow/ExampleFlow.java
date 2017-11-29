@@ -4,20 +4,27 @@ import co.paralleluniverse.fibers.Suspendable;
 import com.example.contract.IOUContract;
 import com.example.state.IOUState;
 import com.google.common.collect.Sets;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import net.corda.core.contracts.Command;
 import net.corda.core.contracts.ContractState;
 import net.corda.core.contracts.StateAndContract;
+import net.corda.core.contracts.StateAndRef;
 import net.corda.core.flows.*;
 import net.corda.core.identity.AbstractParty;
 import net.corda.core.identity.Party;
+import net.corda.core.node.services.Vault;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
 import net.corda.core.utilities.ProgressTracker.Step;
+import net.corda.core.utilities.UntrustworthyData;
 
+import java.sql.ResultSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.contract.IOUContract.IOU_CONTRACT_ID;
+import static java.lang.System.out;
 import static net.corda.core.contracts.ContractsDSL.requireThat;
 
 /**
@@ -42,7 +49,6 @@ public class ExampleFlow {
         private final String DOB;
         private final String FirstName;
         private final String LastName;
-
         private final Party Customer;
 
         public Initiator( String firstName, String lastName, String DOB, Party customer) {
@@ -96,6 +102,43 @@ public class ExampleFlow {
             // Obtain a reference to the notary we want to use.
             final Party notary = getServiceHub().getNetworkMapCache().getNotaryIdentities().get(0);
 
+
+            //Adding the input state of the customer :
+            //Get input state from the customer
+//            FlowSession getPreviousStateSession = initiateFlow(Customer);
+            FlowSession otherPartySession = initiateFlow(Customer);
+
+            UntrustworthyData<IOUState> ppp = new UntrustworthyData<>(null);
+            Class c = ppp.getClass();
+//            UntrustworthyData<? extends IOUState> prevState1 = otherPartySession.receive(ppp.getClass());
+
+            UntrustworthyData<IOUState> prevState1 = otherPartySession.receive(IOUState.class);
+
+//            subFlow(new PrevStateFlow(), Sets.newHashSet(getPreviousStateSession));
+//            Boolean kyc_done_before = subFlow(new PrevStateFlow(getPreviousStateSession));
+            List<StateAndRef<IOUState>> prevState = subFlow(new PrevStateFlow(otherPartySession));
+           // StateAndRef<IOUState> prevState = null;
+
+            // Perform checking on the object received.
+            // T O D O: Check the received object.
+            // Return the object.
+//            List<IOUState> prevState = null;
+//            try{
+//                prevState1 = prevState1.unwrap(data -> {
+////                    data.getFirstName();
+////                    data.getLastName();
+////                    data.getLinearId();
+////                    data.getDOB();
+//
+//                    return (List<IOUState>) data;
+//                  //  return data;
+//                } , prevState);
+//            }
+//
+//            catch (Exception e){
+//                e.printStackTrace();
+//            }
+
             // Stage 1.
             progressTracker.setCurrentStep(GENERATING_TRANSACTION);
             // Generate an unsigned transaction.
@@ -103,6 +146,10 @@ public class ExampleFlow {
             final Command<IOUContract.Commands.Create> txCommand = new Command<>(new IOUContract.Commands.Create(),
                     iouState.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList()));
             final TransactionBuilder txBuilder = new TransactionBuilder(notary).withItems(new StateAndContract(iouState, IOU_CONTRACT_ID), txCommand);
+            if(prevState.size() != 0)
+                txBuilder.addInputState(prevState.get(0));
+
+
 
             // Stage 2.
             progressTracker.setCurrentStep(VERIFYING_TRANSACTION);
@@ -115,7 +162,7 @@ public class ExampleFlow {
             final SignedTransaction partSignedTx = getServiceHub().signInitialTransaction(txBuilder);
 
 
-            FlowSession otherPartySession = initiateFlow(Customer);
+//            FlowSession otherPartySession = initiateFlow(Customer);
 
             // Stage 4.
             progressTracker.setCurrentStep(GATHERING_SIGS);
@@ -127,6 +174,50 @@ public class ExampleFlow {
             progressTracker.setCurrentStep(FINALISING_TRANSACTION);
             // Notarise and record the transaction in both parties' vaults.
             return subFlow(new FinalityFlow(fullySignedTx));
+        }
+    }
+
+    @InitiatingFlow
+    @InitiatedBy(Initiator.class)
+    public static class PrevStateFlow extends FlowLogic<List<StateAndRef<IOUState>>> {
+
+        private final FlowSession otherPartyFlow;
+        public PrevStateFlow(FlowSession otpf){
+            otherPartyFlow = otpf;
+        }
+        @Override
+        @Suspendable
+        public List<StateAndRef<IOUState>> call() throws FlowException {
+
+            Vault.Page<IOUState> results = getServiceHub().getVaultService().queryBy(IOUState.class);
+//            return results.getStates().get(0);
+
+//            FlowSession getPreviousStateSession = initiateFlow(Org);
+
+            if(results == null){
+                out.println("HAKKA : Results Null");
+            }
+            else{
+                out.println("HAKKA : " +  results);
+            }
+
+            if(results.getStates() == null){
+                out.println("Hakka : getstates null");
+            }
+            else{
+                out.println("HAKKA : " + results.getStates());
+            }
+
+//            if(results.getStates().get(0) ==  null){
+//                out.println("HAKKA : Get 0 null");
+//            }
+//            else {
+//                out.println("HAKKA : " + results.getStates().get(0));
+//            }
+
+//            otherPartyFlow.send(results.getStates());
+
+            return results.getStates();
         }
     }
 

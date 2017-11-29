@@ -31,20 +31,23 @@ public class IOUContract implements Contract {
      * The verify() function of all the states' contracts must not throw an exception for a transaction to be
      * considered valid.
      */
-    @Override
-    public void verify(LedgerTransaction tx) {
-        final CommandWithParties<Commands.Create> command = requireSingleCommand(tx.getCommands(), Commands.Create.class);
-        requireThat(require -> {
-            // Generic constraints around the IOU transaction.
-            require.using("No inputs should be consumed when issuing an IOU.",
-                    tx.getInputs().isEmpty());
-            require.using("Only one output state should be created.",
-                    tx.getOutputs().size() == 1);
-            final IOUState out = tx.outputsOfType(IOUState.class).get(0);
-            require.using("The lender and the borrower cannot be the same entity.",
-                    out.getOrg() != out.getCustomer());
-            require.using("All of the participants must be signers.",
-                    command.getSigners().containsAll(out.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList())));
+            @Override
+            public void verify(LedgerTransaction tx) {
+                final CommandWithParties<Commands.Create> command = requireSingleCommand(tx.getCommands(), Commands.Create.class);
+
+                requireThat(require -> {
+                    // Generic constraints around the IOU transaction.
+//                    require.using("No inputs should be consumed when issuing an IOU.",
+//                            tx.getInputs().isEmpty());
+//                    require.using("Should be consumed when issuing an IOU.",
+//                            !tx.getInputs().isEmpty());
+                    require.using("Only one output state should be created.",
+                            tx.getOutputs().size() == 1);
+                    final IOUState out = tx.outputsOfType(IOUState.class).get(0);
+//                    require.using("The lender and the borrower cannot be the same entity.",
+//                            out.getOrg() != out.getCustomer());
+                    require.using("All of the participants must be signers.",
+                            command.getSigners().containsAll(out.getParticipants().stream().map(AbstractParty::getOwningKey).collect(Collectors.toList())));
 
             // IOU-specific constraints.
 //            require.using("The IOU's value must be non-negative.",
