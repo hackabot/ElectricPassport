@@ -28,11 +28,16 @@ app.controller('DemoAppController', function($http, $location, $uibModal) {
 
     // We identify the node.
     const apiBaseURL = "/api/example/";
+
+   // const apiBaseURL1 = "/api/metaState/";
+
     let peers = [];
 
     $http.get(apiBaseURL + "me").then((response) => demoApp.thisNode = response.data.me);
 
     $http.get(apiBaseURL + "peers").then((response) => peers = response.data.peers);
+
+    // $http.get(apiBaseURL1 + "states").then((response) )
 
     demoApp.openModal = () => {
         const modalInstance = $uibModal.open({

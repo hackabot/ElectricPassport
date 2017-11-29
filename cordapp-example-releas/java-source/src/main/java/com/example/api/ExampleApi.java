@@ -3,16 +3,22 @@ package com.example.api;
 
 // OOOOOOOOOOOOOOOOLA AL LA LA AL AA LA
 
+import com.example.contract.IOUContract;
 import com.example.flow.ExampleFlow;
 import com.example.state.IOUState;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import net.corda.core.contracts.LinearState;
 import net.corda.core.contracts.StateAndRef;
+import net.corda.core.contracts.StateRef;
+import net.corda.core.contracts.UniqueIdentifier;
+import net.corda.core.crypto.SecureHash;
 import net.corda.core.identity.CordaX500Name;
 import net.corda.core.identity.Party;
 import net.corda.core.messaging.CordaRPCOps;
 import net.corda.core.messaging.FlowProgressHandle;
 import net.corda.core.node.NodeInfo;
+import net.corda.core.node.services.Vault;
 import net.corda.core.transactions.SignedTransaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +42,15 @@ public class ExampleApi {
 
     private final List<String> serviceNames = ImmutableList.of("Controller", "Network Map Service");
 
+  //  private final List<String> vaultVals = ImmutableList.of("Controller","");
+
     static private final Logger logger = LoggerFactory.getLogger(ExampleApi.class);
+    private Party party;
 
     public ExampleApi(CordaRPCOps rpcOps) {
         this.rpcOps = rpcOps;
         this.myLegalName = rpcOps.nodeInfo().getLegalIdentities().get(0).getName();
+
     }
 
     /**
@@ -70,7 +80,45 @@ public class ExampleApi {
     }
 
     /**
-     * Displays all IOU states that exist in the node's vault.
+     * Display state of Vaults in distributed ledger using StateMetadata
+     */
+
+//    @GET
+//    @Path("vaultsTransact")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<StateAndRef<IOUState>> getVaultSupport(){
+//
+//        return rpcOps.getVaultTransactionNotes().iterator();
+//        //rpcOps.nodeInfo().getLegalIdentities().getClass();
+//        //party = rpcOps.nodeInfo().getLegalIdentities().get(0);
+//        //return rpcOps.getVaultTransactionNotes(); //find securehash ID
+//    }
+
+    /**
+     * Returns vault state metadata
+     */
+    @GET
+    @Path("states")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Vault.StateMetadata> getMetaData(){
+        return rpcOps.vaultQuery(IOUState.class).getStatesMetadata();
+        //return rpcOps.vaultQuery(query,true);
+    }
+
+    /**
+     * Returns Vault Track
+     *
+     */
+
+    @GET
+    @Path("vaultTrack")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<StateAndRef<IOUState>> getTrack() {
+        return rpcOps.vaultTrack(IOUState.class).getSnapshot().getStates();
+    }
+
+    /**
+     * Displays all KYC details that exist in the node's vault.
      */
     @GET
     @Path("ious")
@@ -78,6 +126,17 @@ public class ExampleApi {
     public List<StateAndRef<IOUState>> getIOUs() {
         return rpcOps.vaultQuery(IOUState.class).getStates();
     }
+
+    /**
+     * Display Parties participating in the txn. --- PartiesFromName
+     */
+//    @GET
+//    @Path("partyNames")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public List<StateAndRef> getPartyNames(){
+//        return rpcOps.partiesFromName();
+//    }
+
 
     /**
      * Initiates a flow to agree an IOU between two parties.

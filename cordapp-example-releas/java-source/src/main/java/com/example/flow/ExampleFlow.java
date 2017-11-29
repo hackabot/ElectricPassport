@@ -42,6 +42,7 @@ public class ExampleFlow {
         private final String DOB;
         private final String FirstName;
         private final String LastName;
+        //private final String docSubmitted;
 
         private final Party Customer;
 
@@ -50,6 +51,7 @@ public class ExampleFlow {
             FirstName = firstName;
             LastName = lastName;
             Customer = customer;
+
         }
 
         private final Step GENERATING_TRANSACTION = new Step("Generating transaction based on new IOU.");
@@ -151,9 +153,8 @@ public class ExampleFlow {
                 protected void checkTransaction(SignedTransaction stx) {
                     requireThat(require -> {
                         ContractState output = stx.getTx().getOutputs().get(0).getData();
-                        require.using("This must be an IOU transaction.", output instanceof IOUState);
+                        require.using("This must be a KYC details transaction.", output instanceof IOUState);
                         IOUState iou = (IOUState) output;
-                       // require.using("I won't accept IOUs with a value over 100.", Integer.parseInt(iou.getDOB()) <= 100);
                         return null;
                     });
                 }
