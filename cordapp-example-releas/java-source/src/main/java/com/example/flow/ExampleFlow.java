@@ -112,7 +112,7 @@ public class ExampleFlow {
             Class c = ppp.getClass();
 //            UntrustworthyData<? extends IOUState> prevState1 = otherPartySession.receive(ppp.getClass());
 
-            UntrustworthyData<IOUState> prevState1 = otherPartySession.receive(IOUState.class);
+//            UntrustworthyData<IOUState> prevState1 = otherPartySession.receive(IOUState.class);
 
 //            subFlow(new PrevStateFlow(), Sets.newHashSet(getPreviousStateSession));
 //            Boolean kyc_done_before = subFlow(new PrevStateFlow(getPreviousStateSession));
@@ -164,21 +164,21 @@ public class ExampleFlow {
 
 //            FlowSession otherPartySession = initiateFlow(Customer);
 
-            // Stage 4.
-            progressTracker.setCurrentStep(GATHERING_SIGS);
-            // Send the state to the counterparty, and receive it back with their signature.
-            final SignedTransaction fullySignedTx = subFlow(
-                    new CollectSignaturesFlow(partSignedTx, Sets.newHashSet(otherPartySession), CollectSignaturesFlow.Companion.tracker()));
+//            // Stage 4.
+//            progressTracker.setCurrentStep(GATHERING_SIGS);
+//            // Send the state to the counterparty, and receive it back with their signature.
+//            final SignedTransaction fullySignedTx = subFlow(
+//                    new CollectSignaturesFlow(partSignedTx, Sets.newHashSet(otherPartySession), CollectSignaturesFlow.Companion.tracker()));
 
             // Stage 5.
             progressTracker.setCurrentStep(FINALISING_TRANSACTION);
             // Notarise and record the transaction in both parties' vaults.
-            return subFlow(new FinalityFlow(fullySignedTx));
+            return subFlow(new FinalityFlow(partSignedTx));
         }
     }
 
     @InitiatingFlow
-//    @InitiatedBy(Initiator.class)
+    @InitiatedBy(Initiator.class)
     public static class PrevStateFlow extends FlowLogic<List<StateAndRef<IOUState>>> {
 
         private final FlowSession otherPartyFlow;
@@ -221,36 +221,36 @@ public class ExampleFlow {
         }
     }
 
-    @InitiatedBy(Initiator.class)
-    public static class Acceptor extends FlowLogic<SignedTransaction> {
-
-        private final FlowSession otherPartyFlow;
-
-        public Acceptor(FlowSession otherPartyFlow) {
-            this.otherPartyFlow = otherPartyFlow;
-        }
-
-        @Suspendable
-        @Override
-        public SignedTransaction call() throws FlowException {
-            class SignTxFlow extends SignTransactionFlow {
-                private SignTxFlow(FlowSession otherPartyFlow, ProgressTracker progressTracker) {
-                    super(otherPartyFlow, progressTracker);
-                }
-
-                @Override
-                protected void checkTransaction(SignedTransaction stx) {
-                    requireThat(require -> {
-                        ContractState output = stx.getTx().getOutputs().get(0).getData();
-                        require.using("This must be an IOU transaction.", output instanceof IOUState);
-                        IOUState iou = (IOUState) output;
-                       // require.using("I won't accept IOUs with a value over 100.", Integer.parseInt(iou.getDOB()) <= 100);
-                        return null;
-                    });
-                }
-            }
-
-            return subFlow(new SignTxFlow(otherPartyFlow, SignTransactionFlow.Companion.tracker()));
-        }
-    }
+//    @InitiatedBy(Initiator.class)
+//    public static class Acceptor extends FlowLogic<SignedTransaction> {
+//
+//        private final FlowSession otherPartyFlow;
+//
+//        public Acceptor(FlowSession otherPartyFlow) {
+//            this.otherPartyFlow = otherPartyFlow;
+//        }
+//
+//        @Suspendable
+//        @Override
+//        public SignedTransaction call() throws FlowException {
+//            class SignTxFlow extends SignTransactionFlow {
+//                private SignTxFlow(FlowSession otherPartyFlow, ProgressTracker progressTracker) {
+//                    super(otherPartyFlow, progressTracker);
+//                }
+//
+//                @Override
+//                protected void checkTransaction(SignedTransaction stx) {
+//                    requireThat(require -> {
+//                        ContractState output = stx.getTx().getOutputs().get(0).getData();
+//                        require.using("This must be an IOU transaction.", output instanceof IOUState);
+//                        IOUState iou = (IOUState) output;
+//                       // require.using("I won't accept IOUs with a value over 100.", Integer.parseInt(iou.getDOB()) <= 100);
+//                        return null;
+//                    });
+//                }
+//            }
+//
+//            return subFlow(new SignTxFlow(otherPartyFlow, SignTransactionFlow.Companion.tracker()));
+//        }
+//    }
 }
