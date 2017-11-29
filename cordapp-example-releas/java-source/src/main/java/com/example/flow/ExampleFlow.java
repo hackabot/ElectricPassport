@@ -178,7 +178,7 @@ public class ExampleFlow {
     }
 
     @InitiatingFlow
-    @InitiatedBy(Initiator.class)
+//    @InitiatedBy(Initiator.class)
     public static class PrevStateFlow extends FlowLogic<List<StateAndRef<IOUState>>> {
 
         private final FlowSession otherPartyFlow;
