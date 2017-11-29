@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Login Page</title>
+	
+	 <script> history.forward(); </script>
+		<meta charset="utf-8">
+		<style media="screen" type="text/css">
+		body{
+			margin:0;
+			color:black;
+			background-image: url("new12.png");
+			
+		    background-color: #cccccc;	
+			background-position:center;	
+			background-size:1440px 1420px;
+			background-repeat: no-repeat;
+			font:600 16px/18px 'Open Sans',sans-serif;
+			background-opacity:0.2;
+			
+		}
+		
+		
+		.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #008CBA;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 10px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  border: 2px solid #008CBA;
+}
+
+.button {font-size: 25px;}
+
+.button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 20px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+		
+		
+		</style>		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<!--webfonts-->
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700' rel='stylesheet' type='text/css'>
+		<!--//webfonts-->
+</head>
+<body>
+
+	<center>
+	 <!-----start-main---->
+	 <div class="main">
+		<div class="login-form">
+			<br><br><br><br><br>
+			<h1>CORDA User Login</h1>
+			<br><br>
+					<div class="head">
+						
+					</div>
+				<form action="titlePage.html" method="post">
+						<h3>Username <input  type="text" name="username" placeholder=" " /></h3>
+						<h3>Password <input type="password" name="password" placeholder="********"/></h3>
+						<br>
+						<div class="submit">
+						<!-- <input type="submit" value="LOGIN" /></form> -->
+						<button class="button" style="vertical-align:middle"><span>LOGIN</span></button>
+					</div>	
+					
+                    
+				
+			</div>
+			<!--//End-login-form-->
+			 <!-----start-copyright---->
+   					<div class="copy-right">
+						
+					</div> 
+				<!-----//end-copyright---->
+		</div>
+			 <!-----//end-main---->
+		</center>
+</body>
+</html>

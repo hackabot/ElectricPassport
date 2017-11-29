@@ -41,6 +41,7 @@ public class IOUSchemaV1 extends MappedSchema {
             FirstName = firstName;
             LastName = lastName;
             this.DOB = DOB;
+           // this.docSubmitted = docSubmitted;
             this.linearId = linearId;
         }
 
@@ -63,6 +64,8 @@ public class IOUSchemaV1 extends MappedSchema {
         public String getDOB() {
             return DOB;
         }
+
+
 
         public UUID getLinearId() {
             return linearId;

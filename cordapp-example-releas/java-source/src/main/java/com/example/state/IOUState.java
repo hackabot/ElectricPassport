@@ -25,7 +25,7 @@ public class IOUState implements LinearState, QueryableState {
 //    private final UniqueIdentifier linearId;
 
     private final String FirstName;
-    private final  Party Customer;
+    private final Party Customer;
     private final Party Org;
     private final String LastName;
     private final String DOB;
