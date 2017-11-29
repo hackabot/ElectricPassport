@@ -15,20 +15,20 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>CORDA User Application</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-		  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-		  integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-			crossorigin="anonymous"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.1/angular.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
-	<script src="js/angular-module.js"></script>
-	<style>
+    <meta charset="UTF-8">
+    <title>CORDA Staff Application</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.2.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="js/angular-module.js"></script>
+    <style>
 .card {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
@@ -45,81 +45,101 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
 </style>
 </head>
 <body ng-app="demoAppModule" ng-controller="DemoAppController as demoApp">
+<h1 align="center" >Customer Details </h1>
 <nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
-		</div>
-		<button ng-click="demoApp.openModal()" type="button" class="btn btn-primary navbar-btn">Fill KYC details</button>
-	</div>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">{{demoApp.thisNode}}</a>
+        </div>
+        <button ng-click="demoApp.openModal()" type="button" class="btn btn-primary navbar-btn">Add customer KYC details</button>
+    </div>
 </nav>
 <script type="text/ng-template" id="demoAppModal.html">
-	<div class="modal-header">
-		<h4 class="modal-title">Fill KYC details</h4>
-	</div>
-	<form>
-		<div class="modal-body">
-			<div class="form-group">
-				<label for="customer" class="control-label">Customer:</label>
-				<select ng-model="modalInstance.form.customer" class="form-control" id="customer"
-						ng-options="peer as peer for peer in modalInstance.peers">
-				</select>
-			</div>
+    <div class="modal-header">
+        <h4 class="modal-title" align="center">Fill KYC details</h4>
+    </div>
+    <form>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="customer" class="control-label">Customer:</label>
+                <select ng-model="modalInstance.form.customer" class="form-control" id="customer"
+                        ng-options="peer as peer for peer in modalInstance.peers">
+                </select>
+            </div>
 
-			<div class="form-group">
-				<label for="first_name" class="control-label">First Name:</label>
-				<input type="text" ng-model="modalInstance.form.first_name" class="form-control" id="first_name">
-			</div>
-			<div class="form-group">
-				<label for="last_name" class="control-label">Last Name:</label>
-				<input type="text" ng-model="modalInstance.form.last_name" class="form-control" id="last_name">
-			</div>
-			<div class="form-group">
-				<label for="dob" class="control-label">DOB:</label>
-				<input type="text" ng-model="modalInstance.form.dob" class="form-control" id="dob">
-			</div>
-			<div class="form-group">
-				<label for="dob" class="control-label">Documents submitted:</label>
-				<input type="text" ng-model="modalInstance.form.docs" class="form-control" id="docs-submit">
-			</div>
+            <div class="form-group">
+                <label for="first_name" class="control-label">First Name:</label>
+                <input type="text" ng-model="modalInstance.form.first_name" class="form-control" id="first_name">
+            </div>
+            <div class="form-group">
+                <label for="last_name" class="control-label">Last Name:</label>
+                <input type="text" ng-model="modalInstance.form.last_name" class="form-control" id="last_name">
+            </div>
+            <div class="form-group">
+                <label for="dob" class="control-label">DOB:</label>
+                <input type="text" ng-model="modalInstance.form.dob" class="form-control" id="dob">
+            </div>
+            <div class="form-group">
+                <label for="aadhaar" class="control-label">Aadhaar Number</label>
+                <input type="text" ng-model="modalInstance.form.aadhaar" class="form-control" id="aadhaar">
+            </div>
 
+            <div class="form-group">
+                <label for="pan" class="control-label">PAN Number</label>
+                <input type="text" ng-model="modalInstance.form.pan" class="form-control" id="pan">
+            </div>
 
-			<div ng-show="modalInstance.formError" class="form-group">
-				<div class="alert alert-danger" role="alert">
-					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-					<span class="sr-only">Error:</span>
-					Enter valid user details
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button ng-click="modalInstance.cancel()" type="button" class="btn btn-default">Close</button>
-			<button ng-click="modalInstance.create()" type="button" class="btn btn-primary">Submit KYC</button>
-		</div>
-	</form>
+            <div class="form-group">
+                <label for="phone" class="control-label">Phone Number</label>
+                <input type="text" ng-model="modalInstance.form.phone" class="form-control" id="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="city" class="control-label">City</label>
+                <input type="text" ng-model="modalInstance.form.city" class="form-control" id="city">
+            </div>
+
+            <div class="form-group">
+                <label for="nationality" class="control-label">Nationality</label>
+                <input type="text" ng-model="modalInstance.form.nationality" class="form-control" id="nationality">
+            </div>
+
+            <div ng-show="modalInstance.formError" class="form-group">
+                <div class="alert alert-danger" role="alert">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    Enter valid user details
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button ng-click="modalInstance.cancel()" type="button" class="btn btn-default">Close</button>
+            <button ng-click="modalInstance.create()" type="button" class="btn btn-primary">Submit KYC</button>
+        </div>
+    </form>
 </script>
 <script type="text/ng-template" id="messageContent.html">
-	<div class="modal-body" id="modal-body">
-		{{ modalInstanceTwo.message }}
-	</div>
+    <div class="modal-body" id="modal-body">
+        {{ modalInstanceTwo.message }}
+    </div>
 </script>
 
 <div class="row">
-	<div class="col-md-1"></div>
-	<div class="col-md-10">
-		<div ng-show="!demoApp.ious.length" class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">There are no recorded KYC details</h3>
-			</div>
-			<div class="panel-body">Use the "Fill KYC details" button to send KYC details to any peer on ledger.</div>
-		</div>
-		<div ng-show="demoApp.ious.length" class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Recorded KYC details:</h3>
-			</div>
-		</div>
-		<div ng-repeat="iou in demoApp.ious" class="panel panel-default" style="border:none">
-			<div class="card">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div ng-show="!demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">There are no recorded KYC details</h3>
+            </div>
+            <div class="panel-body">Use the "Fill KYC details" button to send KYC details to any peer on ledger.</div>
+        </div>
+        <div ng-show="demoApp.ious.length" class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Recorded KYC details:</h3>
+            </div>
+        </div>
+        <div ng-repeat="iou in demoApp.ious" class="panel panel-default" style="border:none">
+            <div class="card">
                 <img src="kyc.png" alt="Avatar" style="width:100%">
                 <div class="container1">
                     <h4>{{iou.firstName}} &nbsp {{iou.lastName}}</h4>
@@ -129,18 +149,18 @@ COMING WEEKS WE'LL WRITE A TUTORIAL ON HOW BEST TO DO THIS.
 
                 </div>
 
-				<!--<ul>-->
-					<!--<li>First Name: {{iou.firstName}}</li>-->
-					<!--<li>Last Name: {{iou.lastName}}</li>-->
-					<!--<li>DOB: {{iou.dob}}</li>-->
-					<!--<li>Customer: {{iou.customer}}</li>-->
-					<!--<li>Documents Submitted: {{iou.docs-submit}}</li>-->
+                <!--<ul>-->
+                <!--<li>First Name: {{iou.firstName}}</li>-->
+                <!--<li>Last Name: {{iou.lastName}}</li>-->
+                <!--<li>DOB: {{iou.dob}}</li>-->
+                <!--<li>Customer: {{iou.customer}}</li>-->
+                <!--<li>Documents Submitted: {{iou.docs-submit}}</li>-->
 
-				<!--</ul>-->
-			</div>
-		</div>
-	</div>
-	<div class="col-md-1"></div>
+                <!--</ul>-->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
 </div>
 
 </body>

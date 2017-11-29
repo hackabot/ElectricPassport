@@ -302,18 +302,18 @@ public class ExampleApi {
         //return rpcOps.vaultQuery(query,true);
     }
 
-//    /**
-//     * Returns Vault Track
-//     *
-//     */
-//
-//    @GET
-//    @Path("vaultTrack")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public List<StateAndRef<IOUState>> getTrack() {
-//        return rpcOps.vaultTrack(IOUState.class).getSnapshot().getStates();
-//    }
-//
+    /**
+     * Returns Vault Track
+     *
+     */
+
+    @GET
+    @Path("vaultTrack")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<StateAndRef<IOUState>> getTrack() {
+        return rpcOps.vaultTrack(IOUState.class).getSnapshot().getStates();
+    }
+
 
     /**
      * Initiates a flow to agree an IOU between two parties.

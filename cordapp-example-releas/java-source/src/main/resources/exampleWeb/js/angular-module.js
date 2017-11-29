@@ -29,7 +29,7 @@ app.controller('DemoAppController', function($http, $location, $uibModal) {
     // We identify the node.
     const apiBaseURL = "/api/example/";
 
-   // const apiBaseURL1 = "/api/metaState/";
+    //const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}&aadhaar=${modalInstance.form.aadhaar}&pan=${modalInstance.form.pan}&phone=${modalInstance.form.phone}`;
 
     let peers = [];
 
@@ -78,8 +78,8 @@ app.controller('ModalInstanceCtrl', function ($http, $location, $uibModalInstanc
 
             $uibModalInstance.close();
 
-            const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}`;
-
+            //const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}`;
+            const createIOUEndpoint = `${apiBaseURL}create-iou?fisrt_name=${modalInstance.form.first_name}&customer=${modalInstance.form.customer}&last_name=${modalInstance.form.last_name}&dob=${modalInstance.form.dob}&aadhaar=${modalInstance.form.aadhaar}&pan=${modalInstance.form.pan}&phone=${modalInstance.form.phone}&nationality=${modalInstance.form.nationality}&city=${modalInstance.form.city}`;
             // Create PO and handle success / fail responses.
             $http.put(createIOUEndpoint).then(
                 (result) => {
