@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+
+        for (x in myObj){
+            document.getElementById("demo").innerHTML = myObj[x].state.data.firstName;
+
+        }
+    }
+};
+xmlhttp.open("GET", "http://localhost:10010/api/example/vaultTrack", true);
+xmlhttp.send();
+
+</script>
+
+<p> <a href="http://localhost:10010/api/example/vaultTrack" target="_blank">json_demo.txt</a></p>
+
+</body>
+</html>

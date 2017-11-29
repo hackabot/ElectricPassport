@@ -1,3 +1,4 @@
+
 package com.example.state;
 
 import com.example.schema.IOUSchemaV1;
@@ -31,6 +32,8 @@ public class IOUState implements LinearState, QueryableState {
     private final String DOB;
     private final UniqueIdentifier linearId;
 
+
+
     public IOUState(String firstName,  String lastName, String DOB,  Party org, Party customer) {
         FirstName = firstName;
         Customer = customer;
@@ -40,6 +43,7 @@ public class IOUState implements LinearState, QueryableState {
         this.linearId = new UniqueIdentifier();
 
     }
+
 
     /**
      * @param value the value of the IOU.
@@ -115,3 +119,4 @@ public class IOUState implements LinearState, QueryableState {
         return String.format("%s(iou=%s, lender=%s, borrower=%s, linearId=%s)", getClass().getSimpleName(), FirstName, LastName, DOB, Org, Customer, linearId);
     }
 }
+
